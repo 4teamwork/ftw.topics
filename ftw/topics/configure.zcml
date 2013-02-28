@@ -32,6 +32,7 @@
         />
 
     <adapter factory=".finder.DefaultTopicTreeFinder" />
+    <adapter factory=".collector.DefaultCollector" />
 
     <!-- ITopicSupport: dexterity behavior -->
     <plone:behavior

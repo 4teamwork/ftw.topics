@@ -1,8 +1,11 @@
 from Products.CMFCore.utils import getToolByName
 from ftw.topics.behavior import ITopicSupportSchema
 from ftw.topics.testing import EXAMPLE_CONTENT_DEFAULT_FUNCTIONAL
+from plone.app.testing import TEST_USER_ID
 from plone.app.testing import TEST_USER_NAME
 from plone.app.testing import TEST_USER_PASSWORD
+from plone.app.testing import login
+from plone.app.testing import setRoles
 from plone.dexterity.fti import DexterityFTI
 from plone.testing.z2 import Browser
 from plone.uuid.interfaces import IUUID
@@ -16,6 +19,10 @@ class TestTopicSupportBehavior(TestCase):
 
     def setUp(self):
         self.portal = self.layer['portal']
+
+        setRoles(self.portal, TEST_USER_ID, ['Manager'])
+        login(self.portal, TEST_USER_NAME)
+
         portal_types = getToolByName(self.portal, 'portal_types')
 
         fti = DexterityFTI('DxTopicSupport')

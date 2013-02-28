@@ -1,0 +1,8 @@
+[
+
+    {"_path": "foo/subsite/theories",
+     "_type": "Document",
+     "title": "Theories",
+     "topics": ["resolveUUID::/foo/subsite/topics/manufacturing"]}
+
+]

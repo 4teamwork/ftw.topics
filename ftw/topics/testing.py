@@ -3,15 +3,11 @@ from plone.app.testing import FunctionalTesting
 from plone.app.testing import IntegrationTesting
 from plone.app.testing import PLONE_FIXTURE
 from plone.app.testing import PloneSandboxLayer
-from plone.app.testing import TEST_USER_ID
-from plone.app.testing import TEST_USER_NAME
 from plone.app.testing import applyProfile
-from plone.app.testing import login
 from plone.app.testing import ploneSite
-from plone.app.testing import setRoles
-from plone.dexterity.utils import createContentInContainer
 from plone.testing import Layer
 from plone.testing import z2
+from plone.testing import zca
 from plone.testing import zodb
 from zope.configuration import xmlconfig
 
@@ -56,6 +52,36 @@ TOPICS_FUNCTIONAL_TESTING = FunctionalTesting(
     bases=(TOPICS_FIXTURE, ), name='ftw.topics:functional')
 
 
+class ExampleContentLayer(Layer):
+
+    defaultBases = (TOPICS_FIXTURE, )
+
+    def setUp(self):
+        # Stack the component registry
+        self['configurationContext'] = zca.stackConfigurationContext(
+            self.get('configurationContext'))
+
+        # Stack the database
+        self['zodbDB'] = zodb.stackDemoStorage(
+            self.get('zodbDB'), name='SimplelayoutTopicsLayer')
+
+        with ploneSite() as portal:
+            applyProfile(portal, 'ftw.topics.tests:example')
+
+    def tearDown(self):
+        # Zap the stacked ZODB
+        self['zodbDB'].close()
+        del self['zodbDB']
+        # Zap the stacked component registry
+        del self['configurationContext']
+
+
+EXAMPLE_CONTENT_FIXTURE = ExampleContentLayer()
+EXAMPLE_CONTENT_DEFAULT_FUNCTIONAL = FunctionalTesting(
+    bases=(EXAMPLE_CONTENT_FIXTURE, ),
+    name='ftw.topics.examplecontent:default:functional')
+
+
 class SimplelayoutTopicsLayer(Layer):
 
     defaultBases = (TOPICS_FIXTURE, )
@@ -87,38 +113,12 @@ SIMPLELAYOUT_TOPICS_FUNCTIONAL_TESTING = FunctionalTesting(
     name='ftw.topics:sl:functional')
 
 
-class ExampleContentLayer(Layer):
+class SimplelayoutExampleContentLayer(SimplelayoutTopicsLayer):
 
-    def setUp(self):
-        # Stack a new DemoStorage
-        self['zodbDB'] = zodb.stackDemoStorage(
-            self.get('zodbDB'), name='SimplelayoutTopicsLayer')
-
-        with ploneSite() as portal:
-            setRoles(portal, TEST_USER_ID, ['Manager'])
-            login(portal, TEST_USER_NAME)
-
-            tree = createContentInContainer(
-                portal, 'ftw.topics.TopicTree', title='Topics')
-
-            node = createContentInContainer(
-                tree, 'ftw.topics.Topic', title='Manufacturing')
-
-            createContentInContainer(
-                node, 'ftw.topics.Topic', title='Agile Manufacturing')
-
-    def tearDown(self):
-        # Zap the stacked ZODB
-        self['zodbDB'].close()
-        del self['zodbDB']
+    defaultBases = (EXAMPLE_CONTENT_FIXTURE, )
 
 
-EXAMPLE_CONTENT_FIXTURE = ExampleContentLayer()
-
-EXAMPLE_CONTENT_DEFAULT_FUNCTIONAL = FunctionalTesting(
-    bases=(TOPICS_FIXTURE, EXAMPLE_CONTENT_FIXTURE),
-    name='ftw.topics.examplecontent:default:functional')
-
+EXAMPLE_CONTENT_SIMPLELAYOUT_FIXTURE = SimplelayoutExampleContentLayer()
 EXAMPLE_CONTENT_SIMPLELAYOUT_FUNCTIONAL = FunctionalTesting(
-    bases=(SIMPLELAYOUT_TOPICS_FIXTURE, EXAMPLE_CONTENT_FIXTURE),
+    bases=(EXAMPLE_CONTENT_SIMPLELAYOUT_FIXTURE, ),
     name='ftw.topics.examplecontent:sl:functional')

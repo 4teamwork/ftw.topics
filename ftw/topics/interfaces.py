@@ -2,6 +2,8 @@
 # E0211: Method has no argument
 # E0213: Method should have "self" as first argument
 
+
+from plone.app.layout.navigation.interfaces import INavigationRoot
 from zope.interface import Interface
 
 
@@ -61,3 +63,25 @@ class ITopicReferencePresentation(Interface):
 
     def available():
         """Determines availability"""
+
+
+class IBackReferenceCollector(Interface):
+    """The back reference collector adapter collects the back references
+    from the adapted topic object.
+    It groups the results into groups.
+    The presentation in the topic views is filtered by group.
+
+    The default implementation uses INavigationRoot for grouping.
+    """
+
+    def __init__(context, request):
+        """The multi-adapter adapts the topic and the request (for easier
+        customiziation using browserlayers).
+        """
+
+    def __call__(group_by=INavigationRoot):
+        """By default the result is grouped by INavigationRoot.
+        This means that each object which is providing INavigationRoot may
+        act as a group and the content within this object is assigned
+        to this group.
+        """

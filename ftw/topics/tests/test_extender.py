@@ -19,11 +19,13 @@ class TestSchemaExtender(TestCase):
 
 
     def test_extends_ITopicSupport(self):
-        page = self.portal.get(self.portal.invokeFactory('ContentPage', 'page'))
+        page = self.portal.get(self.portal.invokeFactory(
+                'ContentPage', 'page'))
 
-        self.assertTrue(ITopicSupport.providedBy(page),
-                        'Expected ContentPage objects to provide ITopicSupport'
-                        ' but it doesnt.')
+        self.assertTrue(
+            ITopicSupport.providedBy(page),
+            'Expected ContentPage objects to provide ITopicSupport'
+            ' but it doesnt.')
 
         field = page.Schema().get('topics')
         self.assertTrue(field, 'Field "topics" missing on ContentPage')
@@ -35,4 +37,5 @@ class TestSchemaExtender(TestCase):
                          'Did not expect "File" to provide "ITopicSupport"')
 
         field = obj.Schema().get('topics')
-        self.assertFalse(field, '"File" object should not have "topics" field')
+        self.assertFalse(
+            field, '"File" object should not have "topics" field')
