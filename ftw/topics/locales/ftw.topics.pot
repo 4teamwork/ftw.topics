@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2013-02-28 10:14+0000\n"
+"POT-Creation-Date: 2013-03-08 13:10+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -42,6 +42,11 @@ msgstr ""
 #. Default: "Section:"
 #: ./ftw/topics/browser/templates/topic_listing.pt:11
 msgid "label_topic_section"
+msgstr ""
+
+#. Default: "References:"
+#: ./ftw/topics/browser/viewlets/topic_references.pt:10
+msgid "label_topice_references_title"
 msgstr ""
 
 #. Default: "Topics"

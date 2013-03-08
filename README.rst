@@ -168,6 +168,11 @@ Register your adapter with ZCML:
 Be sure you give the adapter a name, so that it does not conflict with other adapters.
 
 
+Viewlets
+--------
+
+A viewlet shows all referenced topics on a object with ITopicSupport
+
 Links
 -----
 

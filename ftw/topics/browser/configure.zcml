@@ -4,6 +4,8 @@
     xmlns:zcml="http://namespaces.zope.org/zcml"
     i18n_domain="ftw.topics">
 
+    <include package=".viewlets" />
+
     <browser:resourceDirectory
         name="ftw.topics"
         directory="resources" />
