@@ -14,6 +14,8 @@
     <include file="permissions.zcml" />
     <include package=".browser" />
 
+    <include zcml:condition="installed ftw.lawgiver" file="lawgiver.zcml" />
+
     <genericsetup:registerProfile
         name="default"
         title="ftw.topics"
