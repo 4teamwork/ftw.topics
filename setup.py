@@ -21,7 +21,7 @@ tests_require = [
     'unittest2',
     'mocker',
     'pyquery',
-    'ftw.testing',
+    'ftw.testing [splinter]',
 
     'zope.i18n',
     'z3c.autoinclude',

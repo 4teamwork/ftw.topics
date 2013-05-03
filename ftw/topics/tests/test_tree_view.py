@@ -1,14 +1,11 @@
 from ftw.testing import MockTestCase
+from ftw.testing import browser
+from ftw.testing.pages import Plone
 from ftw.topics.browser import tree
 from ftw.topics.testing import TOPICS_FUNCTIONAL_TESTING
 from plone.app.testing import TEST_USER_ID
-from plone.app.testing import TEST_USER_NAME
-from plone.app.testing import TEST_USER_PASSWORD
-from plone.app.testing import login
 from plone.app.testing import setRoles
 from plone.dexterity.utils import createContentInContainer
-from plone.testing.z2 import Browser
-from pyquery import PyQuery
 from unittest2 import TestCase
 import transaction
 
@@ -83,51 +80,95 @@ class TestTreeView(TestCase):
     def setUp(self):
         self.portal = self.layer['portal']
 
+    def test_visible_topic_levels_on_tree_view(self):
         setRoles(self.portal, TEST_USER_ID, ['Manager'])
-        login(self.portal, TEST_USER_NAME)
-
-        self.tree = createContentInContainer(self.portal,
-                                             'ftw.topics.TopicTree',
-                                             title='Topics')
-
-        node1 = createContentInContainer(self.tree, 'ftw.topics.Topic',
-                                         title='Manufacturing')
-        node1a = createContentInContainer(node1, 'ftw.topics.Topic',
-                                          title='Agile Manufacturing')
-        createContentInContainer(node1a, 'ftw.topics.Topic',
-                                 'Benchmarks')
-
-        node2 = createContentInContainer(self.tree, 'ftw.topics.Topic',
-                                         title='Telecom')
-        node2a = createContentInContainer(node2, 'ftw.topics.Topic',
-                                          title='Billing')
-        createContentInContainer(node2a, 'ftw.topics.Topic',
-                                 'Customers')
-
+        tree = self.create_tree(self.portal)
+        first = self.create_topic(tree, 'First Level')
+        second = self.create_topic(first, 'Second Level')
+        self.create_topic(second, 'Third Level')
         transaction.commit()
 
-        self.browser = Browser(self.layer['app'])
-        self.browser.addHeader('Authorization', 'Basic %s:%s' % (
-                TEST_USER_NAME, TEST_USER_PASSWORD,))
-        self.browser.handleErrors = False
+        Plone().login()
+        Plone().visit_portal(tree.id)
 
-    def test_tree_view(self):
-        self.browser.open(self.tree.absolute_url())
-        doc = PyQuery(self.browser.contents)
+        self.assertNotIn(
+            'Third Level', self.get_content_links_labels(),
+            'The tree view should only display the first and the second'
+            ' level of the tree, not the third.')
 
-        # "Benchmarks" and "Customers" are level 3 - should not be visible
-        self.assertNotIn('Benchmarks', self.browser.contents)
-        self.assertNotIn('Customers', self.browser.contents)
+        self.assertEquals(
+            ['First Level', 'Second Level'], self.get_content_links_labels(),
+            'The tree view should display the first two tree levels.')
 
-        # there should be two columns
-        columns = doc('#content .listing-column')
-        self.assertEquals(len(columns), 2, 'Expected exactly two columns')
+    def test_tree_view_has_two_columns(self):
+        setRoles(self.portal, TEST_USER_ID, ['Manager'])
+        tree = self.create_tree(self.portal)
+        self.create_topic(tree, 'Topic 1')
+        self.create_topic(tree, 'Topic 2')
+        transaction.commit()
 
-        # "Telecom" should be in the first column,
-        self.assertEqual(columns.eq(0).find('h2 a:first').text(),
-                         'Telecom')
+        Plone().login()
+        Plone().visit_portal(tree.id)
 
-        # "Manufacturing" in the second.
-        # This is because it's sorted by title.
-        self.assertEqual(columns.eq(1).find('h2 a:first').text(),
-                         'Manufacturing')
+        self.assertEquals(
+            [['Topic 1'], ['Topic 2']],
+            self.get_content_links_per_column(),
+
+            'The tree view should have two columns and arrange the first'
+            ' level topics in those two columns.')
+
+    def test_first_level_topics_are_sorted_by_title(self):
+        setRoles(self.portal, TEST_USER_ID, ['Manager'])
+        tree = self.create_tree(self.portal)
+        self.create_topic(tree, 'Topic 3')
+        self.create_topic(tree, 'Topic 1')
+        self.create_topic(tree, 'Topic 2')
+        transaction.commit()
+
+        Plone().login()
+        Plone().visit_portal(tree.id)
+
+        self.assertEquals(
+            ['Topic 1', 'Topic 2', 'Topic 3'],
+            self.get_content_links_labels(),
+            'First level topics should be sorted by title.')
+
+    def test_second_level_topics_are_sorted_by_title(self):
+        setRoles(self.portal, TEST_USER_ID, ['Manager'])
+        tree = self.create_tree(self.portal)
+        parent = self.create_topic(tree, 'Parent')
+        self.create_topic(parent, 'Topic 3')
+        self.create_topic(parent, 'Topic 1')
+        self.create_topic(parent, 'Topic 2')
+        transaction.commit()
+
+        Plone().login()
+        Plone().visit_portal(tree.id)
+
+        self.assertEquals(
+            ['Parent', 'Topic 1', 'Topic 2', 'Topic 3'],
+            self.get_content_links_labels(),
+            'Second level topics should be sorted by title.')
+
+
+    def create_tree(self, parent, title='Topics'):
+        return createContentInContainer(
+            parent, 'ftw.topics.TopicTree', title=title)
+
+    def create_topic(self, parent, title='Topic'):
+        return createContentInContainer(parent, 'ftw.topics.Topic',
+                                        title=title)
+
+    def get_content_links_labels(self):
+        links = browser().find_by_css('#content-core a')
+        return map(lambda item: item.text, links)
+
+    def get_content_links_per_column(self):
+        columns = browser().find_by_css('#content-core div.listing-column')
+        result = []
+
+        for column in columns:
+            links = column.find_by_css('a')
+            result.append(map(lambda item: item.text, links))
+
+        return result

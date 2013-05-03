@@ -12,7 +12,11 @@
 
               {"_id": "agile-manufacturing",
                "_type": "ftw.topics.Topic",
-               "title": "Agile Manufacturing"}
+               "title": "Agile Manufacturing"},
+
+              {"_id": "quality",
+               "_type": "ftw.topics.Topic",
+               "title": "Quality"}
 
           ]}
      ]}

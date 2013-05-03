@@ -32,13 +32,18 @@ class TestContentTypeCreation(TestCase):
         self.browser.open(self.portal.portal_url())
         self.browser.getLink(id='ftw-topics-topictree').click()
 
-        self.assertEqual(self.browser.url,
-                         'http://nohost/plone/++add++ftw.topics.TopicTree')
+        self.assertTrue(
+            self.browser.url.endswith('++add++ftw.topics.TopicTree'),
+            'Should be on the topic tree add view, but url is: %s' % (
+                self.browser.url))
+
         self.browser.getControl(label='Title').value = 'Topical'
         self.browser.getControl(label='Save').click()
 
-        self.assertEqual(self.browser.url,
-                         'http://nohost/plone/topical/view')
+        self.assertTrue(
+            self.browser.url.endswith('topical/view'),
+            'Should be on "topical" view, but url is: %s' % (
+                self.browser.url))
         self.assertIn('Topical', self.browser.contents)
 
         tree = self.portal.get('topical')

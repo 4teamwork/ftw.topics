@@ -31,16 +31,30 @@ class DefaultCollector(object):
 
         result = [{'label': site.Title(),
                    'path': '/'.join(site.getPhysicalPath()),
-                   'UID': 'root'}]
+                   'UID': 'root',
+                   'objects': []}]
 
         def brain_to_item(brain):
             return {'label': brain.Title,
                     'path': brain.getPath(),
-                    'UID': brain.UID}
+                    'UID': brain.UID,
+                    'objects': []}
 
         brains = catalog(object_provides=self.group_by.__identifier__)
         result.extend(map(brain_to_item, brains))
+        self._mark_current_section(result)
         return result
+
+    def _mark_current_section(self, sections):
+        sections_by_path = sorted(sections,
+                                  key=lambda section: section['path'],
+                                  reverse=True)
+
+        current_path = '/'.join(self.context.getPhysicalPath())
+        for section in sections_by_path:
+            if current_path.startswith(section['path']):
+                section['is_current_section'] = True
+                return
 
     def _get_brefs_per_section(self):
         """Returns all back references per section.
@@ -64,6 +78,9 @@ class DefaultCollector(object):
         for section in map(deepcopy, self._get_sections()):
             if mapping[section['path']]:
                 section['objects'] = mapping[section['path']]
+                result.append(section)
+
+            elif section.get('is_current_section'):
                 result.append(section)
 
         return result

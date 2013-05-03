@@ -41,23 +41,27 @@ class TestDefaultCollector(TestCase):
                                IBackReferenceCollector)
         result = comp()
 
-        self.assertEquals(result, [
+        self.assertEquals(
+            [
                 {'label': u'Plone site',
                  'UID': 'root',
                  'path': '/plone',
-                 'objects': [self.doc]},
+                 'objects': [self.doc],
+                 'is_current_section': True},
 
                 {'label': 'Sub Site',
                  'UID': self.subsite_uid,
                  'path': '/plone/foo/subsite',
-                 'objects': [self.subsite_doc]}])
+                 'objects': [self.subsite_doc]}],
+            result)
 
     def test_SUBSITE_calling_returns_result(self):
         comp = getMultiAdapter((self.subsite_node, None),
                                IBackReferenceCollector)
         result = comp()
 
-        self.assertEquals(result, [
+        self.assertEquals(
+            [
                 {'label': u'Plone site',
                  'UID': 'root',
                  'path': '/plone',
@@ -66,45 +70,57 @@ class TestDefaultCollector(TestCase):
                 {'label': 'Sub Site',
                  'UID': self.subsite_uid,
                  'path': '/plone/foo/subsite',
-                 'objects': [self.subsite_doc]}])
+                 'objects': [self.subsite_doc],
+                 'is_current_section': True}],
+            result)
 
     def test_get_sections(self):
         comp = getMultiAdapter((self.node, None), IBackReferenceCollector)
-        self.assertEquals(comp._get_sections(), [
+        self.assertEquals(
+            [
                 {'label': u'Plone site',
                  'UID': 'root',
-                 'path': '/plone'},
+                 'path': '/plone',
+                 'objects': [],
+                 'is_current_section': True},
 
                 {'label': 'Sub Site',
                  'UID': self.subsite_uid,
+                 'objects': [],
                  'path': '/plone/foo/subsite'},
 
                 {'label': "Empty sub site",
                  'UID': self.empty_subsite_uid,
-                 'path': '/plone/empty-subsite'}])
+                 'objects': [],
+                 'path': '/plone/empty-subsite'}],
+            comp._get_sections())
 
     def test_get_brefs_per_section(self):
         comp = getMultiAdapter((self.node, None),
                                IBackReferenceCollector)
         result = comp._get_brefs_per_section()
 
-        self.assertEquals(result, [
+        self.assertEquals(
+            [
                 {'label': u'Plone site',
                  'UID': 'root',
                  'path': '/plone',
-                 'objects': [self.doc]},
+                 'objects': [self.doc],
+                 'is_current_section': True},
 
                 {'label': 'Sub Site',
                  'UID': self.subsite_uid,
                  'path': '/plone/foo/subsite',
-                 'objects': [self.subsite_doc]}])
+                 'objects': [self.subsite_doc]}],
+            result)
 
     def test_SUBSITE_get_brefs_per_section(self):
         comp = getMultiAdapter((self.subsite_node, None),
                                IBackReferenceCollector)
         result = comp._get_brefs_per_section()
 
-        self.assertEquals(result, [
+        self.assertEquals(
+            [
                 {'label': u'Plone site',
                  'UID': 'root',
                  'path': '/plone',
@@ -113,7 +129,9 @@ class TestDefaultCollector(TestCase):
                 {'label': 'Sub Site',
                  'UID': self.subsite_uid,
                  'path': '/plone/foo/subsite',
-                 'objects': [self.subsite_doc]}])
+                 'objects': [self.subsite_doc],
+                 'is_current_section': True}],
+            result)
 
     def test_get_merged_brefs(self):
         comp = getMultiAdapter((self.node, None),

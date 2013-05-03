@@ -46,15 +46,15 @@ class TestTopicSupportBehavior(TestCase):
         search_name = 'form.widgets.ITopicSupportSchema.topics.buttons.search'
 
         self.browser.getControl(label='Title').value = 'My Object'
-        self.browser.getControl(name=query_field_name).value = 'manu'
+        self.browser.getControl(name=query_field_name).value = 'qualit'
         self.browser.getControl(name=search_name).click()
-        self.browser.getControl(label='Agile Manufacturing').selected = True
+        self.browser.getControl(label='Quality').selected = True
         self.browser.getControl(label='Save').click()
 
         obj = self.portal.get('my-object')
         topic_support = ITopicSupportSchema(obj)
 
         agile = self.portal.get('topics').get('manufacturing').get(
-            'agile-manufacturing')
+            'quality')
 
         self.assertEqual(topic_support.topics, [IUUID(agile)])

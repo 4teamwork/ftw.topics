@@ -9,7 +9,7 @@
         <div metal:fill-slot="content-core">
 
             <tal:TREE tal:define="tree view/get_tree;
-                                  columns python: (tree[len(tree)/2:], tree[:len(tree)/2])">
+                                  columns python: (tree[:len(tree)/2], tree[len(tree)/2:])">
 
                 <div class="listing-column" tal:repeat="column columns">
                     <div class="listing-block" tal:repeat="node column">

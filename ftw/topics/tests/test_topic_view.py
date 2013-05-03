@@ -59,10 +59,10 @@ class TestDefaultTopicView(TestCase):
 
         # on node (Manufacturing) should be subnode (Agile Manufacturing)
         links = doc('.subelements-listing a')
-        self.assertEqual(len(links), 1,
+        self.assertEqual(len(links), 2,
                          'Found more or less links than expected')
 
-        self.assertEqual(links.text(), 'Agile Manufacturing')
+        self.assertEqual(links.text(), 'Agile Manufacturing Quality')
 
     def test_subnode_has_no_children(self):
         self.browser.open(self.subnode.absolute_url() + '/' + self.viewname)

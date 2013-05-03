@@ -1,3 +1,4 @@
+from ftw.testing import FunctionalSplinterTesting
 from ftw.testing.layer import ComponentRegistryLayer
 from plone.app.testing import FunctionalTesting
 from plone.app.testing import IntegrationTesting
@@ -48,7 +49,7 @@ class TopicsLayer(PloneSandboxLayer):
 TOPICS_FIXTURE = TopicsLayer()
 TOPICS_INTEGRATION_TESTING = IntegrationTesting(
     bases=(TOPICS_FIXTURE, ), name='ftw.topics:integration')
-TOPICS_FUNCTIONAL_TESTING = FunctionalTesting(
+TOPICS_FUNCTIONAL_TESTING = FunctionalSplinterTesting(
     bases=(TOPICS_FIXTURE, ), name='ftw.topics:functional')
 
 
