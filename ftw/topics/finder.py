@@ -29,7 +29,7 @@ class DefaultTopicTreeFinder(object):
         obj = self.context
         while obj:
             if INavigationRoot.providedBy(obj) and \
-                    len(self._get_direct_topic_trees(obj)):
+                    self._has_direct_topic_trees(obj):
                 return '/'.join(obj.getPhysicalPath())
 
             if IPloneSiteRoot.providedBy(obj):
@@ -39,6 +39,9 @@ class DefaultTopicTreeFinder(object):
 
         return '/'.join(getSite().getPhysicalPath())
 
-    def _get_direct_topic_trees(self, obj):
-        return obj.listFolderContents({
-                'object_provides': ITopicTree.__identifier__})
+    def _has_direct_topic_trees(self, context):
+        for obj in context.objectValues():
+            if ITopicTree.providedBy(obj):
+                return True
+
+        return False

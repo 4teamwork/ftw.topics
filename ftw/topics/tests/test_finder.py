@@ -2,8 +2,8 @@ from Products.CMFPlone.interfaces.siteroot import IPloneSiteRoot
 from ftw.testing import MockTestCase
 from ftw.topics.finder import DefaultTopicTreeFinder
 from ftw.topics.interfaces import ITopicRootFinder
+from ftw.topics.interfaces import ITopicTree
 from ftw.topics.testing import ZCML_LAYER
-from mocker import ANY
 from plone.app.layout.navigation.interfaces import INavigationRoot
 from zope.component import getMultiAdapter
 from zope.component import getSiteManager
@@ -33,10 +33,10 @@ class TestDefaultTopicTreeFinder(MockTestCase):
 
         if with_trees:
             objs['root'] = self.providing_stub(ITopicRootFinder)
-            self.expect(objs['site'].listFolderContents(ANY)).result([
+            self.expect(objs['site'].objectValues()).result([
                     objs['root']])
         else:
-            self.expect(objs['site'].listFolderContents(ANY)).result([])
+            self.expect(objs['site'].objectValues()).result([])
 
         objs['foo'] = self.stub()
         self.expect(objs['foo'].getPhysicalPath()).result(['', 'site', 'foo'])
@@ -53,11 +53,11 @@ class TestDefaultTopicTreeFinder(MockTestCase):
         self.set_parent(objs['bar'], objs['subsite'])
 
         if with_trees:
-            objs['subtree'] = self.providing_stub(ITopicRootFinder)
-            self.expect(objs['subsite'].listFolderContents(ANY)).result([
+            objs['subtree'] = self.providing_stub(ITopicTree)
+            self.expect(objs['subsite'].objectValues()).result([
                     objs['subtree']])
         else:
-            self.expect(objs['subsite'].listFolderContents(ANY)).result([])
+            self.expect(objs['subsite'].objectValues()).result([])
 
         return objs
 
