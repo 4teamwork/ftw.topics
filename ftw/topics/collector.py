@@ -19,6 +19,7 @@ class DefaultCollector(object):
         self.context = context
         self.request = request
         self.group_by = INavigationRoot
+        self.mtool = getToolByName(self.context, 'portal_membership')
 
     def __call__(self, group_by=INavigationRoot):
         self.group_by = group_by
@@ -89,9 +90,17 @@ class DefaultCollector(object):
         """Returns all backrefrences to the current context and its
         similar topic objects (see _get_similar_topic_objects docstring).
         """
-        return reduce(list.__add__,
-                      map(lambda obj: IReferenceable(obj).getBRefs(),
-                          self._get_similar_topic_objects()))
+        unrestricted_objects = reduce(
+            list.__add__,
+            map(lambda obj: IReferenceable(obj).getBRefs(),
+                self._get_similar_topic_objects()))
+
+        return filter(
+            self._filter_view_permission, unrestricted_objects)
+
+    def _filter_view_permission(self, obj):
+        if self.mtool.checkPermission('View', obj):
+            return obj
 
     def _get_similar_topic_objects(self):
         """Returns all objects which have the same relative path to the

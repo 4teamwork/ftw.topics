@@ -21,6 +21,7 @@ class TopicListing(object):
     def render_topic_listing(self):
         self.sections, self.objects = self._get_sections_and_objects()
         self.representations = self._get_representations()
+
         return self.listing_template()
 
     def get_child_topics(self):

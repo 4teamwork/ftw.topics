@@ -10,6 +10,7 @@ from plone.testing.z2 import Browser
 from plone.uuid.interfaces import IUUID
 from pyquery import PyQuery
 from unittest2 import TestCase
+from zope.component import getMultiAdapter
 import transaction
 
 
@@ -24,6 +25,7 @@ class TestDefaultTopicView(TestCase):
 
     def setUp(self):
         self.portal = self.layer['portal']
+        self.request = self.layer['request']
         self.subsite = self.portal.get('foo').get('subsite')
 
         setRoles(self.portal, TEST_USER_ID, ['Manager'])
@@ -140,6 +142,25 @@ class TestDefaultTopicView(TestCase):
         self.assertIn(
             'Theories', reference_links,
             'Link "Theories" should be shown')
+
+    def test_backreferences_without_view_permissions_are_not_visible(self):
+
+        folder = self.portal.get('foo')
+        folder.Schema()['topics'].set(folder, self.subnode.UID())
+
+        self.topicview = getMultiAdapter((self.subnode, self.request),
+            name='topic_view')
+
+        self.assert_references(['Foo'])
+
+        folder.manage_permission('View', roles=[], acquire=False)
+
+        self.assert_references([])
+
+    def assert_references(self, references):
+        self.topicview()
+        reference_titles = [v['title'] for v in self.topicview.objects]
+        self.assertEquals(references, reference_titles)
 
 
 class TestSimplelayoutTopicView(TestDefaultTopicView):
