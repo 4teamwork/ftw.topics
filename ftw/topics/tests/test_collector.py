@@ -93,7 +93,7 @@ class TestDefaultCollector(TestCase):
                  'UID': self.empty_subsite_uid,
                  'objects': [],
                  'path': '/plone/empty-subsite'}],
-            comp._get_sections())
+            comp.get_sections())
 
     def test_get_brefs_per_section(self):
         comp = getMultiAdapter((self.node, None),

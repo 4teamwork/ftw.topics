@@ -34,6 +34,7 @@ class TestDefaultTopicView(TestCase):
         self.tree = self.portal.get('topics')
         self.node = self.tree.get('manufacturing')
         self.subnode = self.node.get('agile-manufacturing')
+        self.topic_technology = self.tree.get('technology')
 
         self.subsite_tree = self.subsite.get('topics')
         self.subsite_node = self.subsite_tree.get('manufacturing')
@@ -144,8 +145,32 @@ class TestDefaultTopicView(TestCase):
             'Theories', reference_links,
             'Link "Theories" should be shown')
 
-    def test_backreferences_without_view_permissions_are_not_visible(self):
+    def test_sections_are_always_shown_when_there_are_subsites(self):
+        self.browser.open(self.topic_technology.absolute_url() + '/' +
+                          self.viewname)
+        doc = PyQuery(self.browser.contents)
 
+        self.assertEquals(
+            doc('.topic-filter li').text(), 'Plone site',
+            'Only Plone site should be shown as section, because there'
+            ' are other sections (subsites) - even when there is only one'
+            ' section shown.')
+
+    def test_no_section_are_shown_when_there_are_no_subsites(self):
+        # delete all "subsites", so that we have only one "section",
+        # which is the site.
+        self.portal.manage_delObjects(['foo', 'empty-subsite'])
+        transaction.commit()
+
+        self.browser.open(self.topic_technology.absolute_url() + '/' +
+                          self.viewname)
+        doc = PyQuery(self.browser.contents)
+
+        self.assertEquals(
+            0, len(doc('.topic-filter')),
+            'Sections should not be shown in a non-subsite setup.')
+
+    def test_backreferences_without_view_permissions_are_not_visible(self):
         folder = self.portal.get('foo')
         folder.Schema()['topics'].set(folder, self.subnode.UID())
 

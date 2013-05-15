@@ -26,7 +26,7 @@ class DefaultCollector(object):
         return self._get_brefs_per_section()
 
     @instance.memoize
-    def _get_sections(self):
+    def get_sections(self):
         catalog = getToolByName(self.context, 'portal_catalog')
         site = getSite()
 
@@ -62,7 +62,7 @@ class DefaultCollector(object):
         """
 
         section_paths = sorted(
-            map(lambda sec: sec['path'], self._get_sections()),
+            map(lambda sec: sec['path'], self.get_sections()),
             key=len, reverse=True)
 
         mapping = dict(map(lambda path: (path, []), section_paths))
@@ -76,7 +76,7 @@ class DefaultCollector(object):
             mapping[spath].append(obj)
 
         result = []
-        for section in map(deepcopy, self._get_sections()):
+        for section in map(deepcopy, self.get_sections()):
             if mapping[section['path']]:
                 section['objects'] = mapping[section['path']]
                 result.append(section)
@@ -111,7 +111,7 @@ class DefaultCollector(object):
         topic_path = '/'.join(self.context.getPhysicalPath())
 
         section_paths = sorted(map(lambda item: item.get('path'),
-                                   self._get_sections()),
+                                   self.get_sections()),
                                key=len, reverse=True)
         section_path = [spath for spath in section_paths
                         if topic_path.startswith(spath)][0]

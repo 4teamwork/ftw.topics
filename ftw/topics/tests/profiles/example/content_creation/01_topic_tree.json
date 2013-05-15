@@ -18,6 +18,11 @@
                "_type": "ftw.topics.Topic",
                "title": "Quality"}
 
-          ]}
+          ]},
+
+         {"_id": "technology",
+          "_type": "ftw.topics.Topic",
+          "title": "Technology"}
+
      ]}
 ]

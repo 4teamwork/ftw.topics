@@ -33,6 +33,12 @@ class TopicListing(object):
         catalog = getToolByName(self.context, 'portal_catalog')
         return catalog(query)
 
+    def has_multiple_sections(self):
+        collector = getMultiAdapter((self.context, self.request),
+                                    IBackReferenceCollector)
+
+        return len(collector.get_sections()) > 1
+
     def _get_representations(self):
         adapters = dict(getAdapters((self.context, self.request),
                                      ITopicReferencePresentation)).values()
