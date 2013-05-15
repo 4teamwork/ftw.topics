@@ -8,7 +8,7 @@
     <div class="topic-filter"
          tal:condition="python: len(view.sections) > 1">
 
-        <b i18n:translate="label_topic_section">Section:</b>
+        <h2 i18n:translate="label_topic_section">Section</h2>
         <ul>
             <li tal:repeat="item view/sections">
 
