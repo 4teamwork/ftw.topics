@@ -56,8 +56,8 @@ class TestDefaultTopicView(TestCase):
         self.browser.open(self.node.absolute_url() + '/' + self.viewname)
         doc = PyQuery(self.browser.contents)
 
-        # there should be a heading "Topics"
-        self.assertEqual(doc('h3').text(), 'Topics')
+        self.assertEqual(doc('h2.subelements-heading').text(), 'Topics',
+                         'Expected a "Topics" heading')
 
         # on node (Manufacturing) should be subnode (Agile Manufacturing)
         links = doc('.subelements-listing a')
@@ -70,7 +70,8 @@ class TestDefaultTopicView(TestCase):
         self.browser.open(self.subnode.absolute_url() + '/' + self.viewname)
         doc = PyQuery(self.browser.contents)
 
-        self.assertEqual(len(doc('h3')), 0, 'No <h3> expected')
+        self.assertFalse(doc('h2.subelements-heading'),
+                         'Expected no "Topics" heading')
 
     def test_default_section_filter_selection(self):
         self.browser.open(self.node.absolute_url() + '/' + self.viewname)

@@ -36,7 +36,7 @@
     <tal:CHILDREN tal:define="children view/get_child_topics"
                   tal:condition="children">
 
-        <h3 class="linklist" i18n:translate="">Topics</h3>
+        <h2 class="subelements-heading" i18n:translate="">Topics</h2>
         <ul class="subelements-listing">
 
             <li tal:repeat="brain children">
