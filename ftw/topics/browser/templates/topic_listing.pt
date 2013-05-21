@@ -6,7 +6,7 @@
     i18n:domain="ftw.topics">
 
     <div class="topic-filter"
-         tal:condition="view/has_multiple_sections">
+         tal:condition="view/display_section_headings">
 
         <h2 i18n:translate="label_topic_section">Section</h2>
         <ul>

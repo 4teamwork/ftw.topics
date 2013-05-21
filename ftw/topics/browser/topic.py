@@ -39,6 +39,12 @@ class TopicListing(object):
 
         return len(collector.get_sections()) > 1
 
+    def has_objects(self):
+        return len(self.objects)
+
+    def display_section_headings(self):
+        return self.has_multiple_sections() and self.has_objects()
+
     def _get_representations(self):
         adapters = dict(getAdapters((self.context, self.request),
                                      ITopicReferencePresentation)).values()

@@ -145,7 +145,7 @@ class TestDefaultTopicView(TestCase):
             'Theories', reference_links,
             'Link "Theories" should be shown')
 
-    def test_sections_are_always_shown_when_there_are_subsites(self):
+    def test_sections_are_always_shown_when_there_are_subsites_and_brefs(self):
         self.browser.open(self.topic_technology.absolute_url() + '/' +
                           self.viewname)
         doc = PyQuery(self.browser.contents)
@@ -155,6 +155,15 @@ class TestDefaultTopicView(TestCase):
             'Only Plone site should be shown as section, because there'
             ' are other sections (subsites) - even when there is only one'
             ' section shown.')
+
+    def test_sections_are_not_shown_when_there_are_subsites_but_no_brefs(self):
+        self.topic_quality = self.node.get('quality')
+        self.browser.open(self.topic_quality.absolute_url() + '/' +
+                          self.viewname)
+        doc = PyQuery(self.browser.contents)
+
+        self.assertEquals(doc('.topic-filter li'), [],
+            'Expect no section, because there is no content')
 
     def test_no_section_are_shown_when_there_are_no_subsites(self):
         # delete all "subsites", so that we have only one "section",
