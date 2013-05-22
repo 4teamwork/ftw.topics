@@ -165,6 +165,17 @@ class TestDefaultTopicView(TestCase):
         self.assertEquals(doc('.topic-filter li'), [],
             'Expect no section, because there is no content')
 
+    def test_sections_are_shown_when_other_sections_have_brefs(self):
+        obj = self.subsite_tree.get('technology')
+        self.browser.open(obj.absolute_url() + '/' + self.viewname)
+        doc = PyQuery(self.browser.contents)
+
+        self.assertEquals(
+            ['Plone site', 'Sub Site'],
+            map(lambda node: PyQuery(node).text(), doc('.topic-filter li')),
+            'Section filter should be visible because other sections have'
+            ' backreferences.')
+
     def test_no_section_are_shown_when_there_are_no_subsites(self):
         # delete all "subsites", so that we have only one "section",
         # which is the site.

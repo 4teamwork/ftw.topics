@@ -14,7 +14,11 @@
                "_type": "ftw.topics.Topic",
                "title": "Agile Manufacturing"}
 
-          ]}
+          ]},
+
+         {"_id": "technology",
+          "_type": "ftw.topics.Topic",
+          "title": "Technology"}
 
      ]}
 ]

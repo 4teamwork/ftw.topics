@@ -39,11 +39,15 @@ class TopicListing(object):
 
         return len(collector.get_sections()) > 1
 
-    def has_objects(self):
-        return len(self.objects)
+    def topic_or_similar_topic_has_brefs(self):
+        for section in self.sections:
+            if len(section.get('objects')) > 0:
+                return True
+        return False
 
     def display_section_headings(self):
-        return self.has_multiple_sections() and self.has_objects()
+        return self.has_multiple_sections() and \
+            self.topic_or_similar_topic_has_brefs()
 
     def _get_representations(self):
         adapters = dict(getAdapters((self.context, self.request),
