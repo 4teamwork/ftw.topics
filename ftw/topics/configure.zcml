@@ -53,14 +53,6 @@
         handler=".behavior.add_behavior_relations"
         />
 
-    <!-- ITopicSupport: Archetypes field extender (schemaextender) -->
-    <adapter
-        zcml:condition="installed archetypes.schemaextender"
-        factory=".extender.ATTopicSupportExtender"
-        provides="archetypes.schemaextender.interfaces.IOrderableSchemaExtender"
-        name="ftw.topics.extender"
-        />
-
     <!-- register known types with topic support -->
     <class
         zcml:condition="installed ftw.contentpage"
