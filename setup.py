@@ -6,9 +6,7 @@ version = '1.3.2.dev0'
 
 
 extras_require = {
-    'simplelayout': [
-        'simplelayout.base',
-        'ftw.contentpage'],
+    'simplelayout': [],
 
     'archetypes': [
         'Products.Archetypes',
@@ -21,7 +19,8 @@ tests_require = [
     'unittest2',
     'mocker',
     'pyquery',
-    'ftw.testing [splinter] <= 1.11.0',
+    'ftw.simplelayout',
+    'ftw.testing',
     'ftw.testbrowser',
     'ftw.builder',
 
@@ -52,6 +51,7 @@ setup(name='ftw.topics',
       classifiers=[
         'Framework :: Plone',
         'Framework :: Plone :: 4.3',
+        'Framework :: Plone :: 5.1',
         'Intended Audience :: Developers',
         'Topic :: Software Development :: Libraries :: Python Modules',
         ],
