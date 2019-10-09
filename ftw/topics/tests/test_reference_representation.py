@@ -1,4 +1,4 @@
-from ftw.contentpage.interfaces import IContentPage
+from ftw.simplelayout.contenttypes.contents.interfaces import IContentPage
 from ftw.testing import MockTestCase
 from ftw.topics.browser.contentpage import representation
 from ftw.topics.browser.representation import DefaultRepresentation

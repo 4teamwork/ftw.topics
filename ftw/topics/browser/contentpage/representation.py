@@ -1,4 +1,4 @@
-from ftw.contentpage.interfaces import IContentPage
+from ftw.simplelayout.contenttypes.contents.interfaces import IContentPage
 from ftw.topics import _
 from ftw.topics.browser.representation import DefaultRepresentation
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile

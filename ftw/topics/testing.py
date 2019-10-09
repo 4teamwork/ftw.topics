@@ -1,13 +1,13 @@
 from ftw.builder.testing import BUILDER_LAYER
 from ftw.builder.testing import functional_session_factory
 from ftw.builder.testing import set_builder_session_factory
-from ftw.testing import FunctionalSplinterTesting
+from ftw.testing import IS_PLONE_5
 from ftw.testing.layer import ComponentRegistryLayer
-from plone.app.testing import applyProfile
 from plone.app.testing import FunctionalTesting
 from plone.app.testing import IntegrationTesting
 from plone.app.testing import PLONE_FIXTURE
 from plone.app.testing import PloneSandboxLayer
+from plone.app.testing import applyProfile
 from plone.app.testing import ploneSite
 from plone.testing import Layer
 from plone.testing import z2
@@ -52,7 +52,7 @@ class TopicsLayer(PloneSandboxLayer):
 TOPICS_FIXTURE = TopicsLayer()
 TOPICS_INTEGRATION_TESTING = IntegrationTesting(
     bases=(TOPICS_FIXTURE, ), name='ftw.topics:integration')
-TOPICS_FUNCTIONAL_TESTING = FunctionalSplinterTesting(
+TOPICS_FUNCTIONAL_TESTING = FunctionalTesting(
     bases=(TOPICS_FIXTURE, ), name='ftw.topics:functional')
 
 
@@ -71,6 +71,8 @@ class ExampleContentLayer(Layer):
 
         with ploneSite() as portal:
             applyProfile(portal, 'ftw.topics.tests:example')
+            if IS_PLONE_5:
+                applyProfile(portal, 'plone.app.contenttypes:default')
 
     def tearDown(self):
         # Zap the stacked ZODB

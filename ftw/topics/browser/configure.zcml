@@ -41,7 +41,7 @@
         name="default_representation"/>
 
     <adapter
-        zcml:condition="installed ftw.contentpage"
+        zcml:condition="installed ftw.simplelayout"
         factory=".contentpage.representation.ContentPageRepresentation"
         name="contentpage_representation"/>
 
