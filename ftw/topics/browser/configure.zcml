@@ -27,15 +27,6 @@
         permission="zope2.View"
         />
 
-    <browser:viewlet
-        zcml:condition="installed simplelayout.base"
-        for="ftw.topics.interfaces.ITopic"
-        name="ftw.topics.topiclisting"
-        manager="simplelayout.base.interfaces.ISimpleViewletListingProvider"
-        class=".topic.SimplelayoutTopicListingViewlet"
-        permission="zope2.View"
-        />
-
     <!-- Representation Adapters -->
     <adapter factory=".representation.DefaultRepresentation"
         name="default_representation"/>

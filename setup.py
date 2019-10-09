@@ -5,14 +5,7 @@ from setuptools import setup, find_packages
 version = '1.3.2.dev0'
 
 
-extras_require = {
-    'simplelayout': [],
-
-    'archetypes': [
-        'Products.Archetypes',
-        'archetypes.schemaextender',
-        'archetypes.referencebrowserwidget',
-        ]}
+extras_require = {}
 
 
 tests_require = [
@@ -36,7 +29,7 @@ tests_require = [
     'plone.app.testing',
 
     'ftw.inflator [dexterity]',
-    ] + reduce(list.__add__, extras_require.values())
+] + reduce(list.__add__, extras_require.values())
 
 extras_require['tests'] = tests_require
 
@@ -45,16 +38,16 @@ setup(name='ftw.topics',
       version=version,
       description='Create subject trees in Plone',
 
-      long_description=open('README.rst').read() + '\n' + \
-          open(os.path.join('docs', 'HISTORY.txt')).read(),
+      long_description=open('README.rst').read() + '\n' +
+      open(os.path.join('docs', 'HISTORY.txt')).read(),
 
       classifiers=[
-        'Framework :: Plone',
-        'Framework :: Plone :: 4.3',
-        'Framework :: Plone :: 5.1',
-        'Intended Audience :: Developers',
-        'Topic :: Software Development :: Libraries :: Python Modules',
-        ],
+          'Framework :: Plone',
+          'Framework :: Plone :: 4.3',
+          'Framework :: Plone :: 5.1',
+          'Intended Audience :: Developers',
+          'Topic :: Software Development :: Libraries :: Python Modules',
+      ],
 
       keywords='ftw topics',
       author='4teamwork AG',
@@ -68,38 +61,37 @@ setup(name='ftw.topics',
       zip_safe=False,
 
       install_requires=[
-        'setuptools',
+          'setuptools',
 
-        'zope.schema',
-        'zope.interface',
-        'zope.component',
-        'zope.i18nmessageid',
-        'Acquisition',
-        'Zope2',
-        'zc.relation',
+          'zope.schema',
+          'zope.interface',
+          'zope.component',
+          'zope.i18nmessageid',
+          'Acquisition',
+          'Zope2',
+          'zc.relation',
 
-        'Plone',
-        'plone.app.layout',
-        'plone.browserlayer',
-        'plone.memoize',
-        'Products.GenericSetup',
-        'Products.CMFCore',
-        'Products.CMFPlone',
+          'Plone',
+          'plone.app.layout',
+          'plone.browserlayer',
+          'plone.memoize',
+          'Products.GenericSetup',
+          'Products.CMFCore',
+          'Products.CMFPlone',
 
-        'plone.autoform',
-        'plone.behavior',
-        'plone.dexterity',
-        'plone.app.dexterity',
-        'plone.app.relationfield',
-        'collective.dexteritytextindexer',
-        'collective.geo.openlayers >= 3.0, < 4.0',
-        'collective.geo.mapwidget >= 2.1, < 3.0',
-        'plone.app.referenceablebehavior',
-        'plone.directives.form',
+          'plone.autoform',
+          'plone.behavior',
+          'plone.dexterity',
+          'plone.app.dexterity',
+          'plone.app.relationfield',
+          'collective.dexteritytextindexer',
+          'collective.geo.openlayers >= 3.0, < 4.0',
+          'collective.geo.mapwidget >= 2.1, < 3.0',
+          'plone.directives.form',
 
-        'ftw.upgrade',
-        'ftw.referencewidget',
-        ],
+          'ftw.upgrade',
+          'ftw.referencewidget',
+      ],
 
       tests_require=tests_require,
       extras_require=extras_require,

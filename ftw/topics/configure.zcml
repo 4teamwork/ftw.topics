@@ -25,15 +25,6 @@
         />
     <include package=".upgrades" />
 
-    <genericsetup:registerProfile
-        zcml:condition="installed ftw.contentpage"
-        name="simplelayout"
-        title="ftw.topics : simplelayout"
-        directory="profiles/simplelayout"
-        description=""
-        provides="Products.GenericSetup.interfaces.EXTENSION"
-        />
-
     <adapter factory=".finder.DefaultTopicTreeFinder" />
     <adapter factory=".collector.DefaultCollector" />
 
@@ -52,12 +43,5 @@
              zope.lifecycleevent.IObjectAddedEvent"
         handler=".behavior.add_behavior_relations"
         />
-
-    <!-- register known types with topic support -->
-    <class
-        zcml:condition="installed ftw.contentpage"
-        class="ftw.contentpage.content.contentpage.ContentPage">
-        <implements interface="ftw.topics.interfaces.ITopicSupport" />
-    </class>
 
 </configure>

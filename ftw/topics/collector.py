@@ -9,7 +9,6 @@ from plone.app.dexterity.behaviors.metadata import IPublication
 from plone.app.layout.navigation.interfaces import INavigationRoot
 from plone.dexterity.interfaces import IDexterityContent
 from plone.memoize import instance
-from Products.Archetypes.interfaces.referenceable import IReferenceable
 from Products.CMFCore.utils import getToolByName
 from zc.relation.interfaces import ICatalog
 from zope.component import adapts
@@ -139,11 +138,8 @@ class DefaultCollector(object):
         return map(lambda brain: brain.getObject(), catalog(query))
 
     def _get_brefs_for(self, obj):
-        objs = self._get_at_brefs_for(obj) + self._get_dx_brefs_for(obj)
+        objs = self._get_dx_brefs_for(obj)
         return filter(self._filter_inactive_content, objs)
-
-    def _get_at_brefs_for(self, obj):
-        return IReferenceable(obj).getBRefs()
 
     def _get_dx_brefs_for(self, obj):
         catalog = getUtility(ICatalog)

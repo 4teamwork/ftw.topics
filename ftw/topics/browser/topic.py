@@ -4,7 +4,6 @@ from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from ftw.topics.interfaces import IBackReferenceCollector
 from ftw.topics.interfaces import ITopic
 from ftw.topics.interfaces import ITopicReferencePresentation
-from plone.app.layout.viewlets import ViewletBase
 from zope.component import getAdapters
 from zope.component import getMultiAdapter
 
@@ -107,14 +106,4 @@ class TopicView(BrowserView, TopicListing):
         TopicListing.__init__(self)
 
     def subtopics(self):
-        return self.render_topic_listing()
-
-
-class SimplelayoutTopicListingViewlet(ViewletBase, TopicListing):
-
-    def __init__(self, *args, **kwargs):
-        ViewletBase.__init__(self, *args, **kwargs)
-        TopicListing.__init__(self)
-
-    def render(self):
         return self.render_topic_listing()
