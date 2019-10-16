@@ -31,7 +31,7 @@ class TestDefaultTopicView(TestCase):
         self.subnode = self.node.get('agile-manufacturing')
         self.topic_technology = self.tree.get('technology')
 
-        self.subsite_tree = self.subsite.get('topics')
+        self.subsite_tree = self.subsite.get('topics1')
         self.subsite_node = self.subsite_tree.get('manufacturing')
 
         transaction.commit()

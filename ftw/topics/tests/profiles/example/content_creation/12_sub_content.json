@@ -3,11 +3,11 @@
     {"_path": "foo/subsite/theories",
      "_type": "Document",
      "title": "Theories",
-     "topics": ["resolvePath::/foo/subsite/topics/manufacturing"]},
+     "topics": ["resolvePath::/foo/subsite/topics1/manufacturing"]},
 
     {"_path": "foo/subsite/manufactors",
      "_type": "Document",
      "title": "Manufactors",
-     "topics": ["resolvePath::/foo/subsite/topics/manufacturing/agile-manufacturing"]}
+     "topics": ["resolvePath::/foo/subsite/topics1/manufacturing/agile-manufacturing"]}
 
 ]

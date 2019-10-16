@@ -1,6 +1,6 @@
 [
 
-    {"_path": "foo/subsite/topics",
+    {"_path": "foo/subsite/topics1",
      "_type": "ftw.topics.TopicTree",
      "title": "Topics",
      "_children": [

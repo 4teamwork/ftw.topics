@@ -21,7 +21,7 @@ class TestDefaultCollector(TestCase):
 
         self.tree = self.portal.get('topics')
         self.node = self.tree.get('manufacturing')
-        self.subsite_tree = self.subsite.get('topics')
+        self.subsite_tree = self.subsite.get('topics1')
         self.subsite_node = self.subsite_tree.get('manufacturing')
 
         self.doc = self.portal.get('manufacturing-processes')
