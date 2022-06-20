@@ -7,7 +7,7 @@ class TopicViewlet(ViewletBase):
     index = ViewPageTemplateFile("templates/viewlet.pt")
 
     def update(self):
-        super().update()
+        super(TopicViewlet, self).update()
         self.topics = self.get_topics()
 
     def get_topics(self):
