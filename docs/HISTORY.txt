@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-2.2.1 (unreleased)
+2.2.1 (2022-06-20)
 ------------------
 
 - Add viewlet, which lists all referenced topics on a content. [mathias.leimgruber]
