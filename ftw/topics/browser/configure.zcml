@@ -35,4 +35,12 @@
         factory=".contentpage.representation.ContentPageRepresentation"
         name="contentpage_representation"/>
 
+    <browser:viewlet
+        name="ftw.topics.viewlet"
+        manager="plone.app.layout.viewlets.interfaces.IBelowContentBody"
+        permission="zope2.View"
+        class=".viewlet.TopicViewlet"
+        layer="ftw.topics.interfaces.ITopicBrowserLayer"
+        />
+
 </configure>
