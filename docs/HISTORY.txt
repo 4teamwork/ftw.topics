@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-2.2.2 (unreleased)
+2.2.2 (2022-06-20)
 ------------------
 
 - Fix topics viewlet, if the field has not been initialized. [mathias.leimgruber]
