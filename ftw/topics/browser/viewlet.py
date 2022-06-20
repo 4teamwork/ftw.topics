@@ -17,6 +17,9 @@ class TopicViewlet(ViewletBase):
 
         topic_relations = topic_support.topics
 
+        if not topic_relations:
+            return []
+
         topics = []
         for relation in topic_relations:
             obj = relation.to_object
